@@ -92,28 +92,12 @@ Project Implementation Steps
     - main.py : Main script to run the CLI or GUI.
 ##
 
-![Image Alt Text](./snapshoots/1.png)
-
-
-![Image Alt Text](./snapshoots/2.png)
-
-
-![Image Alt Text](./snapshoots/3.png)
-
-
-![Image Alt Text](./snapshoots/4.png)
-
-
-![Image Alt Text](./snapshoots/5.png)
-
-
-![Image Alt Text](./snapshoots/6.png)
-
-
-![Image Alt Text](./snapshoots/7.png)
-
-
-![Image Alt Text](./snapshoots/8.png)
-
-
-![Image Alt Text](./snapshoots/9.png)
+![Image Alt Text](./1.png)
+![Image Alt Text](./2.png)
+![Image Alt Text](./3.png)
+![Image Alt Text](./4.png)
+![Image Alt Text](./5.png)
+![Image Alt Text](./6.png)
+![Image Alt Text](./7.png)
+![Image Alt Text](./8.png)
+![Image Alt Text](./9.png)
