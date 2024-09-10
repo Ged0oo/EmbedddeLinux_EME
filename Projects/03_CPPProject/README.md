@@ -91,8 +91,8 @@
 - **printTitle():** Prints the menu title.
 
 ## Example
-    ![Image Alt Text](./shots/1.png)
-    ![Image Alt Text](./shots/2.png)
-    ![Image Alt Text](./shots/3.png)
-    ![Image Alt Text](./shots/4.png)
-    ![Image Alt Text](./shots/5.png)
+![Image Alt Text](./shots/1.png)
+![Image Alt Text](./shots/2.png)
+![Image Alt Text](./shots/3.png)
+![Image Alt Text](./shots/4.png)
+![Image Alt Text](./shots/5.png)
