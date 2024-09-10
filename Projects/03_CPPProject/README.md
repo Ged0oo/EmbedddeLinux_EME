@@ -2,7 +2,7 @@
 
 ## Overview
 
-    The **WiFi Control Program** is a command-line tool for managing WiFi connections on a Linux system. This program allows users to display WiFi status, enable or disable WiFi connectivity, connect to saved or new WiFi networks, and manage saved networks.
+The **WiFi Control Program** is a command-line tool for managing WiFi connections on a Linux system. This program allows users to display WiFi status, enable or disable WiFi connectivity, connect to saved or new WiFi networks, and manage saved networks.
 
 ## Features
 
@@ -25,8 +25,8 @@
    - **Search for a Network:** Search for a network by SSID.
 
 ## Requirements
-    - **Operating System: ** Linux
-    - **Libraries/Tools: ** `nmcli` (NetworkManager Command Line Interface) for network management
+- **Operating System: ** Linux
+- **Libraries/Tools: ** `nmcli` (NetworkManager Command Line Interface) for network management
 
 ## Installation
 
