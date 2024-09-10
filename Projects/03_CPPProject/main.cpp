@@ -2,120 +2,158 @@
 #include <cstdlib>
 #include <map>
 #include <string>
-#include <memory>
 #include <array>
+#include <cstdio>
 
 std::map<std::string, std::string> savedNetworks;
 
-// Function to add network details to the map
+void initializeDatabase() {
+    const char* cmd = "nmcli -t -f NAME,TYPE connection show | grep 802-11-wireless | cut -d: -f1";
+    std::array<char, 128> buffer;
+    std::string result;
+    FILE* pipe = popen(cmd, "r");
+
+    if (!pipe) {
+        std::cerr << "Error opening pipe." << std::endl;
+        return;
+    }
+
+    while (fgets(buffer.data(), buffer.size(), pipe) != nullptr) {
+        result = buffer.data();
+        result.erase(result.find_last_not_of("\n\r") + 1);
+        savedNetworks[result] = ""; 
+    }
+
+    pclose(pipe);
+    std::cout << "Database initialized with saved networks." << std::endl;
+}
+
+std::string getPasswordForSSID(const std::string& ssid) {
+    std::string password;
+    const std::string cmd = "nmcli -s -g 802-11-wireless.security.psk connection show \"" + ssid + "\"";
+    std::array<char, 128> buffer;
+    std::string result;
+    FILE* pipe = popen(cmd.c_str(), "r");
+
+    if (!pipe) {
+        std::cerr << "Error opening pipe to get password." << std::endl;
+        return "";
+    }
+
+    while (fgets(buffer.data(), buffer.size(), pipe) != nullptr) {
+        result += buffer.data();
+    }
+    pclose(pipe);
+
+    result.erase(result.find_last_not_of("\n\r") + 1);
+    return result;
+}
+
 void addNetwork_DB(const std::string& ssid, const std::string& pass) {
     savedNetworks[ssid] = pass;
     std::cout << "Network with SSID: " << ssid << " has been added" << std::endl;
 }
 
-// Function to retrieve network details from the map
 void retrievNetwork_DB(const std::string& ssid) {
     auto it = savedNetworks.find(ssid);
     if (it != savedNetworks.end()) {
-        std::cout << "Network with SSID: " << ssid << " and PASS: " << it->second << " has been found" << std::endl;
+        std::cout << "Network with SSID: " << ssid << " has been found" << std::endl;
     } else {
         std::cout << "Network with SSID: " << ssid << " not found" << std::endl;
     }
 }
 
-// Function to list all saved networks
 void listAllNetworks_DB() {
     if (savedNetworks.empty()) {
         std::cout << "No Saved Networks." << std::endl;
     } else {
         for (const auto& pair : savedNetworks) {
-            std::cout << "SSID: " << pair.first << ", Password: " << pair.second << std::endl;
+            std::cout << "SSID: " << pair.first << std::endl;
         }
     }
+    std::cin.get();  
 }
 
-// Function to display all available WiFi networks
 void displayAllNetworks() {
     int ret = system("nmcli -f SSID,SIGNAL,RATE,SECURITY dev wifi list");
     if (ret) {
         std::cout << "<Failed> : Display All Networks" << std::endl;
     }
-    std::cin.get(); // Wait for user input
+    std::cin.get();  
 }
 
-// Function to enable WiFi connectivity
 void enableWifiConnectivity() {
     int ret = system("nmcli radio wifi on");
     if (ret) {
         std::cout << "<Failed> : Enable WiFi Connectivity" << std::endl;
     }
-    std::cin.get(); // Wait for user input
+    std::cin.get();  
 }
 
-// Function to disable WiFi connectivity
 void disableWifiConnectivity() {
     int ret = system("nmcli radio wifi off");
     if (ret) {
         std::cout << "<Failed> : Disable WiFi Connectivity" << std::endl;
     }
-    std::cin.get(); // Wait for user input
+    std::cin.get();  
 }
 
-// Function to get WiFi status
 void getWifiStatus() {
     int ret = system("nmcli radio wifi");
     if (ret) {
         std::cout << "<Failed> : Get WiFi Status" << std::endl;
     }
-    std::cin.get(); // Wait for user input
+    std::cin.get();  
 }
 
-// Function to show active WiFi connections
 void showActiveAvailableNetworks() {
     int ret = system("nmcli connection show --active");
     if (ret) {
         std::cout << "<Failed> : Show Available and Active Networks" << std::endl;
     }
-    std::cin.get(); // Wait for user input
+    std::cin.get();  
 }
 
-// Function to connect to a saved WiFi network
 void connctSavedNetwork(const std::string& ssid) {
     int ret = system(("nmcli connection up \"" + ssid + "\"").c_str());
     if (ret) {
         std::cout << "<Failed> : Connect to Available and Active Network" << std::endl;
+    } else {
+        std::cout << "Connected to saved network: " << ssid << std::endl;
     }
-    std::cin.get(); // Wait for user input
+    std::cin.get();  
 }
 
-// Function to connect to a new WiFi network
 void conncetNewWifiNetwork(const std::string& ssid, const std::string& pass) {
     int ret = system(("nmcli device wifi connect \"" + ssid + "\" password \"" + pass + "\"").c_str());
     if (ret) {
         std::cout << "<Failed> : Connect to New Network" << std::endl;
+    } else {
+        std::cout << "Connected to new network: " << ssid << std::endl;
+        addNetwork_DB(ssid, pass);
     }
-    std::cin.get(); // Wait for user input
+    std::cin.get();  
 }
 
-// Function to delete a saved WiFi connection
 void deleteSavedWifiConnection(const std::string& ssid) {
     int ret = system(("nmcli connection delete \"" + ssid + "\"").c_str());
     if (ret) {
         std::cout << "<Failed> : Delete Saved Wifi Network" << std::endl;
+    } else {
+        savedNetworks.erase(ssid); 
+        std::cout << "Deleted saved network: " << ssid << std::endl;
     }
-    std::cin.get(); // Wait for user input
+    std::cin.get();  
 }
 
-// Function to search for an available WiFi network
 void searchForAvailableNetwork(const std::string& ssid) {
     int ret = system(("nmcli -f SSID,RATE,SECURITY dev wifi list | grep \"" + ssid + "\"").c_str());
     if (ret) {
         std::cout << "<Failed> : Search for Available Wifi Network" << std::endl;
     }
-    std::cin.get(); // Wait for user input
+    std::cin.get();  
 }
 
-// Function to print the main menu title
 void printTitle() {
     system("clear");
     std::cout << "\n====================================================" << std::endl;
@@ -126,6 +164,8 @@ void printTitle() {
 int main() {
     int choice;
 
+    initializeDatabase();
+
     while (true) {
         printTitle();
 
@@ -135,11 +175,12 @@ int main() {
         std::cout << "4. \tConnect to WiFi Network" << std::endl;
         std::cout << "5. \tRemove Saved Network" << std::endl;
         std::cout << "6. \tSearch for Network" << std::endl;
-        std::cout << "7. \tExit" << std::endl;
+        std::cout << "7. \tList DataBase Content" << std::endl;
+        std::cout << "8. \tExit" << std::endl;
         std::cout << "\nEnter Your Choice : ";
 
         std::cin >> choice;
-        std::cin.ignore(); // Ignore newline left in buffer
+        std::cin.ignore();  
 
         switch (choice) {
             case 1:
@@ -165,9 +206,8 @@ int main() {
                 std::cout << "\nConnecting to WiFi Network..." << std::endl;
                 std::cout << "1. \tConnect to Saved WiFi Network" << std::endl;
                 std::cout << "2. \tConnect to New WiFi Network" << std::endl;
-                std::cout << "\nEnter Your Choice : ";
                 std::cin >> choice;
-                std::cin.ignore(); // Ignore newline left in buffer
+                std::cin.ignore();  
 
                 switch (choice) {
                     case 1:
@@ -220,6 +260,12 @@ int main() {
                 break;
 
             case 7:
+                printTitle();
+                std::cout << "\nListing All Database Content..." << std::endl;
+                listAllNetworks_DB();
+                break;
+            
+            case 8:
                 return 0;
             
             default:
