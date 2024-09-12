@@ -43,7 +43,7 @@ void initializeDatabase() {
 void addNetwork_DB(const std::string& ssid, const std::string& pass) {
     savedNetworks[ssid] = pass;
     std::cout << "Network with SSID: " << ssid << " has been added" << std::endl;
-    std::cin.get();  
+       
 }
 
 void retrievNetwork_DB(const std::string& ssid) {
@@ -53,7 +53,7 @@ void retrievNetwork_DB(const std::string& ssid) {
     } else {
         std::cout << "Network with SSID: " << ssid << " not found" << std::endl;
     }
-    std::cin.get();  
+       
 }
 
 void listAllNetworks_DB() {
@@ -64,7 +64,7 @@ void listAllNetworks_DB() {
             std::cout << "SSID: " << pair.first << ", Password: " << pair.second << std::endl;
         }
     }
-    std::cin.get();  
+       
 }
 
 void displayAllNetworks() {
@@ -72,7 +72,7 @@ void displayAllNetworks() {
     if (ret) {
         std::cout << "<Failed> : Display All Networks" << std::endl;
     }
-    std::cin.get();  
+       
 }
 
 void enableWifiConnectivity() {
@@ -80,7 +80,7 @@ void enableWifiConnectivity() {
     if (ret) {
         std::cout << "<Failed> : Enable WiFi Connectivity" << std::endl;
     }
-    std::cin.get();  
+       
 }
 
 void disableWifiConnectivity() {
@@ -88,7 +88,7 @@ void disableWifiConnectivity() {
     if (ret) {
         std::cout << "<Failed> : Disable WiFi Connectivity" << std::endl;
     }
-    std::cin.get();  
+       
 }
 
 void getWifiStatus() {
@@ -96,7 +96,7 @@ void getWifiStatus() {
     if (ret) {
         std::cout << "<Failed> : Get WiFi Status" << std::endl;
     }
-    std::cin.get();  
+       
 }
 
 void showActiveAvailableNetworks() {
@@ -104,7 +104,7 @@ void showActiveAvailableNetworks() {
     if (ret) {
         std::cout << "<Failed> : Show Available and Active Networks" << std::endl;
     }
-    std::cin.get();  
+       
 }
 
 void connctSavedNetwork(const std::string& ssid) {
@@ -114,7 +114,7 @@ void connctSavedNetwork(const std::string& ssid) {
     } else {
         std::cout << "Connected to saved network: " << ssid << std::endl;
     }
-    std::cin.get();  
+       
 }
 
 void conncetNewWifiNetwork(const std::string& ssid, const std::string& pass) {
@@ -125,7 +125,7 @@ void conncetNewWifiNetwork(const std::string& ssid, const std::string& pass) {
         std::cout << "Connected to new network: " << ssid << std::endl;
         addNetwork_DB(ssid, pass);
     }
-    std::cin.get();  
+       
 }
 
 void deleteSavedWifiConnection(const std::string& ssid) {
@@ -136,7 +136,7 @@ void deleteSavedWifiConnection(const std::string& ssid) {
         savedNetworks.erase(ssid); 
         std::cout << "Deleted saved network: " << ssid << std::endl;
     }
-    std::cin.get();  
+       
 }
 
 void searchForAvailableNetwork(const std::string& ssid) {
@@ -144,10 +144,10 @@ void searchForAvailableNetwork(const std::string& ssid) {
     if (ret) {
         std::cout << "<Failed> : Search for Available Wifi Network" << std::endl;
     }
-    std::cin.get();  
+       
 }
 
-void printTitle() {
+void printWifiTitle() {
     system("clear");
     std::cout << "\n====================================================" << std::endl;
     std::cout << "\t\t WiFi Driver Manager " << std::endl;

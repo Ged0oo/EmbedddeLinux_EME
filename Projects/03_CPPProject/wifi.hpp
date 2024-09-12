@@ -22,6 +22,6 @@ void connctSavedNetwork(const std::string& ssid);
 void conncetNewWifiNetwork(const std::string& ssid, const std::string& pass);
 void deleteSavedWifiConnection(const std::string& ssid);
 void searchForAvailableNetwork(const std::string& ssid);
-void printTitle();
+void printWifiTitle();
 
 #endif  //__WIFI_HPP__
